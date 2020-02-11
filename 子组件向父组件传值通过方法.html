@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>子组件向父组件传值通过方法.html</title>
+    <script type="text/javascript" src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--    父组件向子组件传递方发是通过事件绑定定义一个事件属性之后，那么子组件就能够通过某种方式来调用传递进去这个方法-->
+    <com v-on:func="show"></com>
+</div>
+
+
+<template id="com1">
+    <div>
+        这是一个子组件
+        <input type="button" value="子组件调用父组件的方法" @click="funcson">
+    </div>
+</template>
+
+<script>
+
+    var com = {
+        template: "#com1",
+        data() {
+            return {
+                user: {
+                    username: "Tom",
+                    age: 20
+                }
+            }
+        },
+        methods: {
+            //当点击子组件的按钮时通过emit拿到父组件传递过来的func
+            funcson() {
+                //emit调用的  第一个参数以后都是参数传值
+                this.$emit('func', this.user);
+            }
+        }
+    }
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "",
+
+        },
+        methods: {
+            show(data) {
+                console.log("这是一个父组件的方法 show")
+                console.log(data);
+            }
+        },
+        components: {
+            com,
+
+        }
+
+    })
+</script>
+</body>
+</html>

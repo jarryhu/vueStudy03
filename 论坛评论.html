@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>论坛评论.html</title>
+    <script type="text/javascript" src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <com v-on:func="add"></com>
+    <table border="1" cellspacing="0">
+        <thead>
+        <tr>
+            <td>昵称</td>
+            <td>内容</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in list" :key="item.id">
+            <td>{{item.username}}</td>
+            <td>{{item.content}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<template id="com1">
+    <div>
+        <td><label>昵称</label><input type="text" v-model="d.username"></td>
+        <br>
+        <td><label>内容</label><textarea rows="3" cols="20" v-model="d.content">
+
+</textarea></td>
+        <input type="button" value="发表" @click="publish">
+    </div>
+</template>
+<script>
+    var com = {
+        template: "#com1",
+        data() {
+            return {
+                d: {
+                    username: "",
+                    content: ""
+                }
+            }
+        },
+        methods: {
+            publish() {
+                if (this.d.username && this.d.content)
+                    this.$emit('func', this.d)
+            }
+        }
+
+    }
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            list: [{id: 1, username: "Jack", content: "天生我材必有用"},
+                {id: 2, username: "Tom", content: "千金散尽还复来"},
+                {id: 3, username: "Jerry", content: "我自横刀向天笑"},
+                {id: 4, username: "Jon", content: "去留肝胆两昆仑"}]
+
+        },
+        methods: {
+            add(d) {
+                var content = {username: d.username, content: d.content}
+                this.list.unshift(content);
+                d.username = "";
+                d.content = "";
+
+            }
+        },
+        components: {
+            com,
+        }
+
+
+    })
+</script>
+</body>
+</html>

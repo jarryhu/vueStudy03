@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ref获取Dom元素和组件.html</title>
+    <script type="text/javascript" src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    需要使用ref属性标识一个id
+    <h1 ref="myh1">abcd</h1>
+    <com ref="myCom"></com>
+</div>
+
+<template id="com1">
+    <div>
+        <h1>组件1</h1>
+    </div>
+</template>
+
+<script>
+
+    var com = {
+        template: "#com1",
+        data() {
+            return {id: 123}
+        },
+        methods: {
+            test() {
+                alert("模版方法  " + this.id);
+            }
+        }
+    }
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "",
+
+        },
+
+        methods: {},
+        //视图还没有创建
+        created() {
+            console.log("生命周期 created   " + this.$refs.myh1.innerText);
+        },
+        mounted() {
+            console.log("生命周期 mounted   " + this.$refs.myh1.innerText);
+            this.$refs.myh1.innerText = "12345"
+
+            console.log("模版数据  " + this.$refs.myCom.id);
+            this.$refs.myCom.id = "456"
+            console.log("模版数据  " + this.$refs.myCom.id);
+            this.$refs.myCom.test();
+        },
+        components: {
+            com
+        }
+
+
+    })
+</script>
+</body>
+</html>
+
